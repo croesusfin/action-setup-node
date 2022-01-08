@@ -1,0 +1,58 @@
+name: 'Setup Node'
+description: 'Setup node with the correct authentication to use Github's node package registry'
+inputs:
+  node-version:
+    description: 'Version of Node to setup'
+    required: false
+    default: 14
+  npmrc-path:
+    description: 'Path to the .npmrc file'
+    required: false
+    default: '.npmrc'
+  token:
+    description: 'Token that will be added to the .npmrc'
+    required: true
+  install-command:
+    description: 'Specify the command that will be run when installing (ex: "npm install" / "npm ci" / etc)'
+    required: false
+    default: 'npm install'
+  skip-install:
+    description: 'Set to true to skip the install command'
+    required: false
+    default: false
+  cache:
+    description: 'A cache will attempt to be created using the hash of the package-lock.json file'
+    required: false
+    default: false
+  cache-key-prefix:
+    description: 'Cache key to use for the cache'
+    required: false
+    default: '${{ runner.os }}-npm-cache-'
+  cache-restore-keys:
+    description: 'Cache restore-keys to use for the cache'
+    required: false
+    default: '${{ runner.os }}-npm-cache-'
+runs:
+  using: "composite"
+  steps:
+    
+    - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{inputs.node-version}}
+
+      - name: Add token for private package access to .npmrc
+        run: echo "//npm.pkg.github.com/:_authToken=${{inputs.token}}" >> ${{inputs.npmrc-path}}
+
+      - name: Load cached dependencies (node_modules)
+        if: inputs.cache == 'true'
+        uses: actions/cache@v2
+        id: node_modules_cache_setup_node_action
+        with:
+          path: node_modules
+          key: ${{input.cache-key-prefix}}${{hashFiles('**/package-lock.json')}}
+          restore-keys: ${{input.cache-restore-keys}}
+
+      - name: Run the install command
+        if: inputs.skip-install == 'false' && inputs.cache == 'false' && steps.node_modules_cache_setup_node_action.outputs.cache-hit == 'false'
+        run: ${{inputs.install-command}}
