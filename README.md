@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: croesusfin/action-setup-node@v1
         with:
           token: ${{secrets.NODE_API_KEY}}
 ```
@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: croesusfin/action-setup-node@v1
         with:
           token: ${{secrets.NODE_API_KEY}}
           install-command: 'npm install --ignore-scripts' # or 'npm ci'
@@ -65,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: croesusfin/action-setup-node@v1
         with:
           token: ${{secrets.NODE_API_KEY}}
           skip-install: true
@@ -83,7 +83,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: croesusfin/action-setup-node@v1
         with:
           token: ${{secrets.NODE_API_KEY}}
           npmrc-path: src/.npmrc
@@ -101,7 +101,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: croesusfin/action-setup-node@v1
         with:
           token: ${{secrets.NODE_API_KEY}}
           cache: true

@@ -1,5 +1,5 @@
 name: 'Setup Node'
-description: 'Setup node with the correct authentication to use Github's node package registry'
+description: 'Setup node with the correct authentication to use Github\"s node package registry'
 inputs:
   node-version:
     description: 'Version of Node to setup'
